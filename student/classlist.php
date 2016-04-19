@@ -26,6 +26,5 @@ foreach($page['studentCourseList'] as $semester){
 	<?php
 // End Each Semester
 }
-
 ?>
 </div>

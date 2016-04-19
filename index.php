@@ -26,6 +26,7 @@ if(!isLoggedIn()){
 				require_once 'student/classlist.php';
 			} else {
 				$page['title'] = "Facalty - Class List";
+				$page['staffCourseList'] = getStaffCourses();
 				require_once 'header.php';
 				require_once 'staff/classlist.php';
 			}	

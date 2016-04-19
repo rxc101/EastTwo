@@ -108,4 +108,43 @@ function getStudentAssignmentSubmissions($assID){
 				);
 }
 
+function getStaffCourses(){
+	$staffID = $_SESSION['userID'];
+	// This will get all the courses that a teacher is a member of StaffCourses
+	// StudentCourses - > StaffCourses -> CourseSubmissions -> Submissions -> Courses
+	
+	return array(
+				0 => array( 
+					'semesterID' => 0,
+					'semseterName' =>'Spring 2016',
+					'courses' => array(							
+										0=> array(
+												'courseID' => 0,
+												'courseName' => 'Course 4556 Math',
+												'students' => 2,
+												'assignments' =>0
+												),
+										1=> array(
+												'courseID' => 1,
+												'courseName' => 'Course 123 History',
+												'students' => 25,
+												'assignments' =>2
+												)
+									)
+						),
+				1 => array(
+					'semesterID' => 1,
+					'semseterName' =>'Fall 2015',
+					'courses' => array(							
+										0=> array(
+												'courseID' => 2,
+												'courseName' => 'Course 4556 Math',
+												'students' => 3,
+												'assignments' =>2
+												)
+									)
+						)
+		);
+}
+
 ?>
