@@ -5,7 +5,7 @@ $action = (isset($_GET['action'])!=null?$_GET['action']:"home");
 session_start();
 // Just for testing
 $_SESSION['userID'] = 1;
-$_SESSION['userType'] = 0; // = 0 Student, = 1 Staff
+$_SESSION['userType'] = 1; // = 0 Student, = 1 Staff
 
 // session_unset(); // Uncomment to view login page
 
@@ -27,7 +27,7 @@ if(!isLoggedIn()){
 			} else {
 				$page['title'] = "Facalty - Class List";
 				require_once 'header.php';
-				echo "Facalty Page";
+				require_once 'staff/classlist.php';
 			}	
 			
 			require_once 'footer.php';
