@@ -5,7 +5,7 @@ $action = (isset($_GET['action'])!=null?$_GET['action']:"home");
 session_start();
 // Just for testing
 $_SESSION['userID'] = 1;
-$_SESSION['userType'] = 1; // = 0 Student, = 1 Staff
+$_SESSION['userType'] = 0; // = 0 Student, = 1 Staff
 
 // session_unset(); // Uncomment to view login page
 
@@ -45,8 +45,17 @@ if(!isLoggedIn()){
 			} else {
 				$page['title'] = "Facalty - Assignment List";
 				require_once 'header.php';
-				echo "Facalty Page";
-			}			
+				$courseID = $_GET['courseID'];
+				
+				$page['studentsNotEnrolled'] = getStudentsNotInCourse($courseID);
+				$page['studentsEnrolled'] = getStudentsInCourse($courseID);
+				
+				
+				$page['staffCourseAssignments'] = getStaffCourseAssignments($courseID);
+				
+				require_once 'staff/assignlist.php';
+			}
+			require_once 'footer.php';			
 			
 		break;
 		
@@ -60,8 +69,11 @@ if(!isLoggedIn()){
 				} else {
 					$page['title'] = "Facalty - Assignment";
 					require_once 'header.php';
-					echo "Facalty Page";
-				}			
+					$assID = $_GET['assID'];
+					$page['staffStudentSubmissions'] = getStaffStudentSubmission($assID);
+					require_once 'staff/assignment.php';
+				}
+				require_once 'footer.php';				
 			
 		break;
 
