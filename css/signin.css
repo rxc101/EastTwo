@@ -63,3 +63,7 @@ body {
 .hoverMouse {
 	cursor:pointer;
 }
+.enrollClick{
+	display: inherit;
+margin-bottom: 5px;
+}
