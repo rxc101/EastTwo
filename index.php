@@ -39,8 +39,7 @@ if(!isLoggedIn()){
 			if(isStudent()){
 				$page['title'] = "Student - Assignment List";	
 				$courseID = $_GET['courseID'];
-				$page['studentCourseAssignments'] = getStudentCourseAssignments($courseID);
-				
+				$page['studentCourseAssignments'] = getStudentCourseAssignments($courseID);				
 				require_once 'header.php';				
 				require_once 'student/assignlist.php';
 			} else {
@@ -48,6 +47,14 @@ if(!isLoggedIn()){
 				require_once 'header.php';
 				echo "Faculty Page";
 			}			
+				$courseID = $_GET['courseID'];				
+				$page['studentsNotEnrolled'] = getStudentsNotInCourse($courseID);
+				$page['studentsEnrolled'] = getStudentsInCourse($courseID);				
+				$page['staffCourseAssignments'] = getStaffCourseAssignments($courseID);				
+				require_once 'staff/assignlist.php';
+			}
+			require_once 'footer.php';			
+
 			
 		break;
 		
@@ -63,6 +70,12 @@ if(!isLoggedIn()){
 					require_once 'header.php';
 					echo "Faculty Page";
 				}			
+
+					$assID = $_GET['assID'];
+					$page['staffStudentSubmissions'] = getStaffStudentSubmission($assID);
+					require_once 'staff/assignment.php';
+				}
+				require_once 'footer.php';				
 			
 		break;
 

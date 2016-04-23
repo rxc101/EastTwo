@@ -118,6 +118,99 @@ function getStudentCourseAssignments($courseID){
 				);
 }
 
+function getStaffCourseAssignments($courseID){
+	
+	
+	return array(
+				'courseName' =>'Course 4556 Math',
+				'assignments' => 	array(
+										0 => array(
+													'assID' => 0,
+													'assignmentName' => 'Algims',
+													'needsGraded' => 5,
+													'completed' => true
+												),
+										1 => array(
+													'assID' => 1,
+													'assignmentName' => 'Dumb Web Project',
+													'needsGraded' => 0,
+													'completed' => false
+												)
+										
+									)
+				);
+}
+
+function getStaffStudentSubmission($assID){
+	// This will be an grouping by studentID their submissions
+	return array(
+				'assignmentName' =>'Algims Part 1',
+				'assignmentMax' => 100,
+				'dueDate' => '4/20/2016 4:20PM',
+				'students' => array(
+									0=> array(
+												'studentID'=>0,
+												'studentName'=>'Max',
+												'submissions' => 	array(
+																		0 => array(
+																					'submissionID' => 0,
+																					'comments' => 'I tried doing better but couldnt',
+																					'feedback' => 'toobad',
+																					'submissionDate' => '1/5/2016 7:15PM',
+																					'graded' => 33,
+																					
+																				),
+																		1 => array(
+																					'submissionID' => 1,
+																					'comments' => 'IDK WHAT IM DOING',
+																					'feedback' => null,
+																					'submissionDate' => '1/5/2016 6:15PM',
+																					'graded' => null
+																				),
+																		2 => array(
+																					'submissionID' => 3,
+																					'comments' => '',
+																					'feedback' => null,
+																					'submissionDate' => '1/5/2016 5:15PM',
+																					'graded' => null
+																				)
+																		
+																	)
+											),
+								1=> array(
+												'studentID'=>0,
+												'studentName'=>'Sue Zie',
+												'submissions' => 	array(
+																		0 => array(
+																					'submissionID' => 4,
+																					'comments' => 'I tried doing better but couldnt',
+																					'feedback' => 'toobad',
+																					'submissionDate' => '1/5/2016 7:15PM',
+																					'graded' => null,
+																					
+																				),
+																		1 => array(
+																					'submissionID' => 5,
+																					'comments' => 'IDK WHAT IM DOING',
+																					'feedback' => null,
+																					'submissionDate' => '1/5/2016 6:15PM',
+																					'graded' => null
+																				),
+																		2 => array(
+																					'submissionID' => 6,
+																					'comments' => '',
+																					'feedback' => null,
+																					'submissionDate' => '1/5/2016 5:15PM',
+																					'graded' => null
+																				)
+																		
+																	)
+											)
+								)
+				);
+	
+}
+
 function getStudentAssignmentSubmissions($assID){
 	// get submissions for assignment
 	return array(
@@ -189,6 +282,31 @@ function getStaffCourses(){
 									)
 						)
 		);
+}
+function getStudentsNotInCourse($courseID){
+	return array(
+				0 => array(
+						'studentID' => 1,
+						'studentName' => 'billyBob'
+					),
+				1 => array(
+					'studentID' => 2,
+					'studentName' => 'Suzie Smith'
+				)
+	);
+}
+
+function getStudentsInCourse($courseID){
+		return array(
+				2 => array(
+						'studentID' => 1,
+						'studentName' => 'Ryan sad'
+					),
+				3 => array(
+					'studentID' => 2,
+					'studentName' => 'dae fraa'
+				)
+	);
 }
 
 ?>
