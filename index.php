@@ -4,10 +4,10 @@ $action = (isset($_GET['action'])!=null?$_GET['action']:"home");
 
 session_start();
 // Just for testing
-$_SESSION['userID'] = 1;
-$_SESSION['userType'] = 1; // = 0 Student, = 1 Staff
+//$_SESSION['userID'] = 1;
+//$_SESSION['userType'] = 0; // = 0 Student, = 1 Staff
 
-// session_unset(); // Uncomment to view login page
+//session_unset(); // Uncomment to view login page
 
 if(!isLoggedIn()){
 			// Display Login Form
@@ -15,6 +15,7 @@ if(!isLoggedIn()){
 			require_once 'header.php';
 			require_once 'login.php';
 			require_once 'footer.php';
+
 } else {
 	switch ($action) {
 		case "home":	
@@ -25,7 +26,7 @@ if(!isLoggedIn()){
 				require_once 'header.php';				
 				require_once 'student/classlist.php';
 			} else {
-				$page['title'] = "Facalty - Class List";
+				$page['title'] = "Faculty - Class List";
 				$page['staffCourseList'] = getStaffCourses();
 				require_once 'header.php';
 				require_once 'staff/classlist.php';
@@ -43,9 +44,9 @@ if(!isLoggedIn()){
 				require_once 'header.php';				
 				require_once 'student/assignlist.php';
 			} else {
-				$page['title'] = "Facalty - Assignment List";
+				$page['title'] = "Faculty - Assignment List";
 				require_once 'header.php';
-				echo "Facalty Page";
+				echo "Faculty Page";
 			}			
 			
 		break;
@@ -58,16 +59,25 @@ if(!isLoggedIn()){
 					require_once 'header.php';
 					require_once 'student/assignment.php';
 				} else {
-					$page['title'] = "Facalty - Assignment";
+					$page['title'] = "Faculty - Assignment";
 					require_once 'header.php';
-					echo "Facalty Page";
+					echo "Faculty Page";
 				}			
 			
 		break;
 
+		case "login":
+				$email  = $_POST['Email'];
+                $password = $POST['Password'];
+                echo $email;
+                echo $password;
+                
+                checkUserAccount($email, $password);
+        break;
 
 		default:
 			echo "You Must Be Lost!";
 	}
 }
 
+?>

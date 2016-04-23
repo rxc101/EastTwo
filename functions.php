@@ -13,6 +13,50 @@ function isStudent(){
 	return false;
 }
 
+function connectToDB()
+{
+	include 'dbLogin.php';
+	$conn = new mysqli($hn, $un, $pw, $db);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	} 
+	return $conn;
+}
+
+function checkUserAccount($email, $password){
+	//query users table
+
+	$conn = connectToDB();
+    session_start();
+	//$email =  $_POST['Email'];
+	//$password = $_POST['Password'];
+	
+	//sanitize string inputs
+	
+	$sql="SELECT * FROM Users WHERE Email='$email' AND Password='$password'";
+    $result=$conn->query($sql);
+    $count = 0;
+    while($row = $result->fetch_assoc())
+    {
+    	$count += 1;
+	}
+	if($count == 1){
+
+		//set session variables
+		$_SESSION['userID'] = 1;
+		$_SESSION['userType'] = 0;
+		header('Location: index.php?action=home');
+
+	}
+	
+	else{
+
+		//incorrect login credentials, redirect to siginin
+    	header('Location: index.php?loginfailed=1');
+    }
+}
+
 function getStudentCourses(){
 	$studentID = $_SESSION['userID'];
 	// Get courses group by semester that the student is in 	
