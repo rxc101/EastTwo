@@ -80,12 +80,12 @@ if(!isLoggedIn()){
 		break;
 
 		case "login":
-				$email  = $_POST['Email'];
-                $password = $POST['Password'];
-                echo $email;
-                echo $password;
-                
-                checkUserAccount($email, $password);
+					$email  = $_POST['Email'];
+	                $password = $POST['Password'];
+	                echo $email;
+	                echo $password;
+	                
+	                checkUserAccount($email, $password);
         break;
 
 		default:
