@@ -38,21 +38,25 @@ function checkUserAccount($email, $password){
     while($row = $result->fetch_assoc())
     {
     	$count += 1;
+    	$accountType = $row["AccountType"];
+    	$userID = $row["Id"];
+    	$userEmail = $row["Email"];
 	}
 	if($count == 1){
 
 		//set session variables
-		$_SESSION['userID'] = 1;
-		$_SESSION['userType'] = 0;
+		$_SESSION['userID'] = $userID;
+		$_SESSION['userType'] = $accountType;
+		$_SESSION['userName'] = $userEmail;
 		header('Location: index.php?action=home');
 
 	}
 	
 	else{
-
 		//incorrect login credentials, redirect to siginin
     	header('Location: index.php?loginfailed=1');
     }
+    $conn->close();
 }
 
 function getStudentCourses(){
