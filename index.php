@@ -9,6 +9,13 @@ session_start();
 
 //session_unset(); // Uncomment to view login page
 
+if(isset($_POST['Email']) && isset($_POST['Password']))
+{
+    $email =  $_POST['Email'];
+	$password = $_POST['Password'];
+	checkUserAccount($email, $password);
+}
+
 if(!isLoggedIn()){
 			// Display Login Form
 			$page['title'] = "Login";
@@ -77,14 +84,9 @@ if(!isLoggedIn()){
 			
 		break;
 
-		case "login":
-					$email  = $_POST['Email'];
-	                $password = $POST['Password'];
-	                echo $email;
-	                echo $password;
-	                
-	                checkUserAccount($email, $password);
-        break;
+        case "logout":
+        		session_unset();
+        		header('Location: index.php?action=home');
 
 		default:
 			echo "You Must Be Lost!";

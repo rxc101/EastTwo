@@ -29,8 +29,6 @@ function checkUserAccount($email, $password){
 
 	$conn = connectToDB();
     session_start();
-	//$email =  $_POST['Email'];
-	//$password = $_POST['Password'];
 	
 	//sanitize string inputs
 	
