@@ -17,6 +17,7 @@
 
 </div>
 
+<?php if($page['studentAssSubmissions']['canSubmit']){?>
 <div class="well">
 <h3>Submission Area</h3>
 <!-- 
@@ -40,6 +41,7 @@ THIS Submission area will be a good place to put our required AJAX stuff..
 
 </div>
 </div>
+<?php } ?>
 
 <script>
 // Later I will make this update a file and post to a function to create a new submission

@@ -194,7 +194,25 @@ function getStudentCourses(){
 function getStudentCourseAssignments($courseID){
 	// Get assignments 	
 	//  CourseAssignments -> CourseSubmissions -> Submissions -> Courses
+	$conn = connectToDB();
 	
+	$sql = 'SELECT c.Name as courseName, a.ID as assID, a.Name as assignmentName  FROM courses c, courseassignments ca, assignments a ';
+	$sql.= 'WHERE c.ID='.$courseID.' AND c.ID=ca.CourseID AND ca.AssignmentID =a.ID ';
+	$result=$conn->query($sql);
+	$assCount = 0;
+	$data = null;
+    while($row = $result->fetch_assoc()){
+		$data['courseName']=$row['courseName'];
+		$data['assignments'][$assCount]['assID'] = $row['assID'];
+		$data['assignments'][$assCount]['assignmentName'] = $row['assignmentName'];
+		$data['assignments'][$assCount]['dueDate'] = $row['assignmentName'];
+		$data['assignments'][$assCount]['submitted'] = false;
+		$assCount++;
+	}
+	
+	return $data;
+	
+	/*
 	return array(
 				'courseName' =>'Course 4556 Math',
 				'assignments' => 	array(
@@ -212,7 +230,7 @@ function getStudentCourseAssignments($courseID){
 												)
 										
 									)
-				);
+				);*/
 }
 
 function getStaffCourseAssignments($courseID){
@@ -223,6 +241,7 @@ function getStaffCourseAssignments($courseID){
 	$result=$conn->query($sql);
 	$assCount = 0;
 	$data = null;
+	$data['courseName'] = "New Course";
     while($row = $result->fetch_assoc()){
 		$data['courseName'] = $row['CourseName'];
 		$data['assignments'][$assCount]['assID'] = $row['ID'];
@@ -364,7 +383,33 @@ function getStaffStudentSubmission($assID){
 }
 
 function getStudentAssignmentSubmissions($assID){
-	// get submissions for assignment
+	// get submissions for assignment	
+	$conn = connectToDB();
+	$studentID = $_SESSION['userID'];
+	
+	$sql = 'SELECT a.Name as assName, a.MaxPoints,s.ID,s.comments,s.feedback,s.graded FROM assignments a, submissions s, courses c, assignmentsubmissions ass, courseassignments ca WHERE ass.StudentID='.$studentID.' AND ass.AssID='.$assID.' ';
+	$sql.= ' AND a.ID = ass.AssID AND ca.AssignmentID=ass.AssID AND ca.CourseID = c.ID AND s.ID = ass.SubID';
+	$result=$conn->query($sql);
+	$subCount = 0;
+	$data = null;
+	$data['canSubmit']=true;
+    while($row = $result->fetch_assoc()){
+		$data['assignmentName'] = $row['assName'];
+		$data['assignmentMax'] = $row['MaxPoints'];
+		$data['dueDate'] = "Replace This";
+		$data['submissions'][$subCount]['submissionID'] = $row['ID'];
+		$data['submissions'][$subCount]['comments'] = $row['comments'];
+		$data['submissions'][$subCount]['feedback'] = $row['feedback'];
+		$data['submissions'][$subCount]['graded'] = $row['graded'];
+		$data['submissions'][$subCount]['submissionDate'] = "replace";
+		if($row['graded']!=null)$data['canSubmit']=false;
+		
+		$subCount++;
+	}
+	
+	return $data;
+	
+	/*
 	return array(
 				'assignmentName' =>'Algims Part 1',
 				'assignmentMax' => 100,
@@ -394,7 +439,7 @@ function getStudentAssignmentSubmissions($assID){
 												)
 										
 									)
-				);
+				);*/
 }
 
 function getStaffCourses(){
