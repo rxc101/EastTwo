@@ -24,11 +24,32 @@ function connectToDB()
 	return $conn;
 }
 
+function addUser()
+{
+	$conn = connectToDB();
+
+	$accountType = $_POST['accountType'];
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
+	$pass = $_POST['password'];
+	$email = $_POST['email'];
+
+	$sql="INSERT INTO Users (Email, AccountType, Password, FirstName, LastName) VALUES ('$email', '$accountType', '$pass', '$firstName', '$lastName')";
+
+	if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+
+$conn->close();
+
+}
+
 function checkUserAccount($email, $password){
 	//query users table
 
 	$conn = connectToDB();
-    session_start();
 	
 	//sanitize string inputs
 	

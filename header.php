@@ -26,6 +26,7 @@
                 <li class="active"><a href="?action=home">Home</a></li>
 				<?php if(isLoggedIn()){?><li><a href="?action=myaccount">My Account</a></li><?php } ?>
 				<?php if(isLoggedIn()){?><li><a href="?action=logout">Log Out</a></li><?php } ?>
+                <?php if ($_SESSION['userType'] == 1){?><li><a href="?action=addUsers">Add User</a></li><?php } ?>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

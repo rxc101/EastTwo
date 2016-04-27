@@ -97,6 +97,20 @@ if(!isLoggedIn()){
         		session_unset();
         		header('Location: index.php?action=home');
 
+        case "addUsers":
+	        	$page['title'] = "Faculty - Add New Users";
+	        	require_once 'header.php';
+	        	require_once 'staff/addUsers.php';
+	        	require_once 'footer.php';
+
+	    break;
+
+        case "createUser":
+        		addUser();
+
+	    break;
+
+
 		default:
 			echo "You Must Be Lost!";
 	}
