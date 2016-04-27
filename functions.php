@@ -28,7 +28,7 @@ function checkUserAccount($email, $password){
 	//query users table
 
 	$conn = connectToDB();
-    session_start();
+    //session_start();
 	
 	//sanitize string inputs
 	
@@ -121,9 +121,26 @@ function getStudentCourseAssignments($courseID){
 }
 
 function getStaffCourseAssignments($courseID){
+	$conn = connectToDB();
 	
+	$sql = 'SELECT c.ID, c.Name as CourseName, a.Name FROM assignments a, courseassignments ca, courses c ';
+	$sql.= 'WHERE ca.ID='.$courseID .' AND a.ID=ca.AssignmentID AND c.ID=ca.CourseID';
+	$result=$conn->query($sql);
+	$assCount = 0;
+	$data = null;
+    while($row = $result->fetch_assoc()){
+		$data['courseName'] = $row['CourseName'];
+		$data['assignments'][$assCount]['assID'] = $row['ID'];
+		$data['assignments'][$assCount]['assignmentName'] = $row['Name'];
+		
+		$data['assignments'][$assCount]['needsGraded'] = 1;
+		$data['assignments'][$assCount]['completed'] = false;
+		$assCount++;
+	}
 	
-	return array(
+	return $data;
+	
+	/*return array(
 				'courseName' =>'Course 4556 Math',
 				'assignments' => 	array(
 										0 => array(
@@ -140,11 +157,49 @@ function getStaffCourseAssignments($courseID){
 												)
 										
 									)
-				);
+				);*/
 }
 
 function getStaffStudentSubmission($assID){
 	// This will be an grouping by studentID their submissions
+	
+	$conn = connectToDB();
+	// THIS SQL will also have basic assignmetn dtails
+	$studentsSQL = 'SELECT *,ass.ID as asID,u.ID as stuID,a.Name as assName,ass.SubID as linkSubID FROM assignmentsubmissions ass, assignments a, users u ';
+	$studentsSQL.= 'WHERE ass.AssID='.$assID.' AND a.ID=AssID AND u.ID=ass.StudentID ';
+	$studentsSQL.= 'AND u.ID IN(SELECT scc.StudentID FROM studentcourses scc,courseassignments ca WHERE ca.AssignmentID=ass.AssID AND ca.CourseID = scc.CourseID ) GROUP BY u.ID';
+	
+	$result=$conn->query($studentsSQL);
+	$stuCount = 0;
+	$data = null;
+	
+    while($row = $result->fetch_assoc()){
+		$data['assignmentName'] = $row['assName'];
+		$data['assignmentMax'] = $row['MaxPoints'];
+		$data['dueDate'] ='due date...';
+		
+		$data['students'][$stuCount]['studentID'] = $row['stuID'];
+		$data['students'][$stuCount]['studentName'] = $row['Email'];
+		
+		$subSQL = 'SELECT *,s.ID as subID FROM submissions s, assignmentsubmissions ass WHERE ass.StudentID='.$row['stuID'].' AND ass.AssID='.$assID.' AND s.ID=ass.SubID';
+		$result2=$conn->query($subSQL);
+		$subCount=0;
+		while($row2 = $result2->fetch_assoc()){
+			$data['students'][$stuCount]['submissions'][$subCount]['submissionID'] = $row2['subID'];
+			$data['students'][$stuCount]['submissions'][$subCount]['comments'] = $row2['comments'];
+			$data['students'][$stuCount]['submissions'][$subCount]['feedback'] = $row2['feedback'];
+			$data['students'][$stuCount]['submissions'][$subCount]['submissionDate'] = 'Submission: '.$row2['subID'];
+			$data['students'][$stuCount]['submissions'][$subCount]['graded'] = $row2['graded'];
+			$data['students'][$stuCount]['submissions'][$subCount]['file'] = $row2['fileloc'];
+			
+			$subCount++;
+		}
+		
+		$stuCount++;
+	}
+	
+	return $data;
+	/*
 	return array(
 				'assignmentName' =>'Algims Part 1',
 				'assignmentMax' => 100,
@@ -209,7 +264,7 @@ function getStaffStudentSubmission($assID){
 																	)
 											)
 								)
-				);
+				);*/
 	
 }
 
@@ -252,7 +307,42 @@ function getStaffCourses(){
 	// This will get all the courses that a teacher is a member of StaffCourses
 	// StudentCourses - > StaffCourses -> CourseSubmissions -> Submissions -> Courses
 	
-	return array(
+	$conn = connectToDB();
+	
+	// DOUBLE query, oh well
+	
+	$sql1 = 'SELECT * FROM semesters';
+	$result=$conn->query($sql1);
+    $semesterCount = 0;
+	$data = null;
+    while($row = $result->fetch_assoc()){
+		// EACH SEMESTER
+		$data[$semesterCount]['semesterID'] = $row['ID'];
+		$data[$semesterCount]['semseterName'] = $row['Name'];
+		$data[$semesterCount]['courses'] = null;
+		
+		$sql2 = 'SELECT c.ID,c.Name FROM studentcourses stc, staffcourses sc, semesters s, courses c ';
+		$sql2.= 'WHERE c.ID=sc.CourseID AND sc.StaffID='.$staffID.' AND s.ID='.$row['ID'].' AND sc.SemesterID='. $row['ID'];
+		
+		$result2=$conn->query($sql2);
+		$count2 = 0;
+		while($row2 = $result2->fetch_assoc()){
+			$data[$semesterCount]['courses'][$count2]['courseID'] = $row2['ID'];
+			$data[$semesterCount]['courses'][$count2]['courseName'] = $row2['Name'];
+			$data[$semesterCount]['courses'][$count2]['students'] = 2;
+			$data[$semesterCount]['courses'][$count2]['assignments'] = 2;
+			$count2++;
+		}
+		
+		$semesterCount++;
+	}
+	
+	return $data;
+	
+	
+	
+	
+	/*return array(
 				0 => array( 
 					'semesterID' => 0,
 					'semseterName' =>'Spring 2016',
@@ -283,9 +373,27 @@ function getStaffCourses(){
 												)
 									)
 						)
-		);
+		);*/
 }
 function getStudentsNotInCourse($courseID){
+	$conn = connectToDB();
+	
+	$userCount = 0;
+	$data = null;
+	
+	$sql = 'SELECT u.ID, u.Email FROM users u ';
+	$sql.= 'WHERE u.AccountType=0 AND u.ID NOT IN (SELECT sc.StudentID FROM studentcourses sc WHERE sc.CourseID='.$courseID.' ) ';
+	
+	$result=$conn->query($sql);
+    while($row = $result->fetch_assoc()){
+		$data[$userCount]['studentID'] = $row['ID'];
+		$data[$userCount]['studentName'] = $row['Email'];	
+		$userCount++;
+	}
+	
+	return $data;
+	
+	/*
 	return array(
 				0 => array(
 						'studentID' => 1,
@@ -296,10 +404,28 @@ function getStudentsNotInCourse($courseID){
 					'studentName' => 'Suzie Smith'
 				)
 	);
+	*/
 }
 
 function getStudentsInCourse($courseID){
-		return array(
+	$conn = connectToDB();
+	
+	$userCount = 0;
+	$data = null;
+	
+	$sql = 'SELECT u.ID, u.Email FROM users u ';
+	$sql.= 'WHERE u.AccountType=0 AND u.ID IN (SELECT sc.StudentID FROM studentcourses sc WHERE sc.CourseID='.$courseID.' ) ';
+	
+	$result=$conn->query($sql);
+    while($row = $result->fetch_assoc()){
+		$data[$userCount]['studentID'] = $row['ID'];
+		$data[$userCount]['studentName'] = $row['Email'];	
+		$userCount++;
+	}
+	
+	return $data;
+	
+		/*return array(
 				2 => array(
 						'studentID' => 1,
 						'studentName' => 'Ryan sad'
@@ -308,7 +434,7 @@ function getStudentsInCourse($courseID){
 					'studentID' => 2,
 					'studentName' => 'dae fraa'
 				)
-	);
+	);*/
 }
 
 ?>
