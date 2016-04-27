@@ -107,7 +107,14 @@ if(!isLoggedIn()){
 
         case "createUser":
         		addUser();
+	    break;
 
+	    case "addCourse":
+        		addNewCourse();
+	    break;
+
+	    case "addSemester":
+	    		addNewSemester();
 	    break;
 
 

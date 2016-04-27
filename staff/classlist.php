@@ -80,10 +80,18 @@ $(function() {
 		
 	});
 	$(".saveAddCouse").click(function(e){
-		//AJAX SAVE THAT
-		//REFRESH PAGE
-		alert("Saving - Refreshing Page");
-		location.reload(); 
+		semID = $(this).attr( 'data-semesterID' );
+		newCourseName = $('#addCourseName' + semID).val();
+		$.ajax({
+			method: "POST",
+			url: "index.php?action=addCourse",
+			data: {semesterId : semID, newCourse : newCourseName}
+		})
+		.done(function(msg){
+			alert(msg);
+			location.reload(); 
+		});
+		
 		
 		
 	});
@@ -104,10 +112,16 @@ $(function() {
 		
 	});
 	$("#saveAddSemester").click(function(e){
-		//AJAX SAVE THAT
-		//REFRESH PAGE
-		alert("Saving - Refreshing Page");
-		location.reload(); 
+        newSemesterName = $("#addSemesterName").val();
+		$.ajax({
+			method: "POST",
+			url: "index.php?action=addSemester",
+			data: {newSemesterName : newSemesterName}
+		})
+		.done(function(msg){
+			alert(msg);
+			location.reload(); 
+		});
 		
 		
 	});

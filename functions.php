@@ -13,6 +13,46 @@ function isStudent(){
 	return false;
 }
 
+function addNewSemester(){
+	$conn = connectToDB();
+
+	$newSemesterName = $_POST['newSemesterName'];
+
+	$sql="INSERT INTO semesters (Name) VALUES ('$newSemesterName')";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+
+function addNewCourse(){
+    $conn = connectToDB();
+
+	$semesterId = $_POST['semesterId'];
+	$newCourse = $_POST['newCourse'];
+
+	$sql="INSERT INTO courses (Name) VALUES ('$newCourse')";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	$staffID = $_SESSION['userID'];
+	$courseID = $conn->insert_id;
+	$sql="INSERT INTO staffcourses (CourseID, StaffID, SemesterID) VALUES ('$courseID', '$staffID', '$semesterId')";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+
+
+}
+
 function connectToDB()
 {
 	include 'dbLogin.php';
@@ -38,6 +78,8 @@ function addUser()
 
 	if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
+    $_SESSION['newUserCreated'] = true;
+    header('Location: index.php?action=home');
 	} else {
 	    echo "Error: " . $sql . "<br>" . $conn->error;
 	}
