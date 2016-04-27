@@ -34,7 +34,7 @@ function addUser()
 	$pass = $_POST['password'];
 	$email = $_POST['email'];
 
-	$sql="INSERT INTO Users (Email, AccountType, Password, FirstName, LastName) VALUES ('$email', '$accountType', '$pass', '$firstName', '$lastName')";
+	$sql="INSERT INTO users (Email, AccountType, Password, FirstName, LastName) VALUES ('$email', '$accountType', '$pass', '$firstName', '$lastName')";
 
 	if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
@@ -53,7 +53,7 @@ function checkUserAccount($email, $password){
 	
 	//sanitize string inputs
 	
-	$sql="SELECT * FROM Users WHERE Email='$email' AND Password='$password'";
+	$sql="SELECT * FROM users WHERE Email='$email' AND Password='$password'";
     $result=$conn->query($sql);
     $count = 0;
     while($row = $result->fetch_assoc())

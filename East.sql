@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.0.10.12
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 27, 2016 at 11:16 PM
--- Server version: 10.1.10-MariaDB
--- PHP Version: 7.0.4
+-- Host: localhost
+-- Generation Time: Apr 27, 2016 at 09:30 PM
+-- Server version: 5.5.46
+-- PHP Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `east`
+-- Database: `East`
 --
 
 -- --------------------------------------------------------
@@ -26,11 +26,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `assignments`
 --
 
-CREATE TABLE `assignments` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `assignments` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
-  `MaxPoints` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `MaxPoints` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `assignments`
@@ -45,12 +46,13 @@ INSERT INTO `assignments` (`ID`, `Name`, `MaxPoints`) VALUES
 -- Table structure for table `assignmentsubmissions`
 --
 
-CREATE TABLE `assignmentsubmissions` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `assignmentsubmissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `AssID` int(11) NOT NULL,
   `SubID` int(11) NOT NULL,
-  `StudentID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `StudentID` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `assignmentsubmissions`
@@ -67,11 +69,12 @@ INSERT INTO `assignmentsubmissions` (`id`, `AssID`, `SubID`, `StudentID`) VALUES
 -- Table structure for table `courseassignments`
 --
 
-CREATE TABLE `courseassignments` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `courseassignments` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CourseID` int(11) NOT NULL,
-  `AssignmentID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `AssignmentID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `courseassignments`
@@ -86,10 +89,11 @@ INSERT INTO `courseassignments` (`ID`, `CourseID`, `AssignmentID`) VALUES
 -- Table structure for table `courses`
 --
 
-CREATE TABLE `courses` (
-  `ID` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `courses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `courses`
@@ -105,10 +109,11 @@ INSERT INTO `courses` (`ID`, `Name`) VALUES
 -- Table structure for table `semesters`
 --
 
-CREATE TABLE `semesters` (
-  `ID` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `semesters` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `semesters`
@@ -125,12 +130,13 @@ INSERT INTO `semesters` (`ID`, `Name`) VALUES
 -- Table structure for table `staffcourses`
 --
 
-CREATE TABLE `staffcourses` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `staffcourses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CourseID` int(11) NOT NULL,
   `StaffID` int(11) NOT NULL,
-  `SemesterID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `SemesterID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `staffcourses`
@@ -146,12 +152,13 @@ INSERT INTO `staffcourses` (`ID`, `CourseID`, `StaffID`, `SemesterID`) VALUES
 -- Table structure for table `studentcourses`
 --
 
-CREATE TABLE `studentcourses` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `studentcourses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `StudentID` int(11) NOT NULL,
   `CourseID` int(11) NOT NULL,
-  `SemesterID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `SemesterID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `studentcourses`
@@ -167,13 +174,14 @@ INSERT INTO `studentcourses` (`ID`, `StudentID`, `CourseID`, `SemesterID`) VALUE
 -- Table structure for table `submissions`
 --
 
-CREATE TABLE `submissions` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `submissions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `comments` varchar(250) NOT NULL,
   `feedback` varchar(250) NOT NULL,
   `graded` int(11) DEFAULT NULL,
-  `fileloc` varchar(75) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `fileloc` varchar(75) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `submissions`
@@ -190,129 +198,26 @@ INSERT INTO `submissions` (`ID`, `comments`, `feedback`, `graded`, `fileloc`) VA
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `Id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Email` varchar(30) NOT NULL,
   `AccountType` int(1) NOT NULL,
-  `Password` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Password` varchar(20) NOT NULL,
+  `FirstName` varchar(20) NOT NULL,
+  `LastName` int(20) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Id`, `Email`, `AccountType`, `Password`) VALUES
-(1, 'bob@bob.com', 1, 'password'),
-(2, 'jim@jim.com', 0, 'password'),
-(3, 'kill@kill.com', 0, 'pass');
+INSERT INTO `users` (`Id`, `Email`, `AccountType`, `Password`, `FirstName`, `LastName`) VALUES
+(1, 'bob@bob.com', 1, 'password', '', 0),
+(2, 'jim@jim.com', 0, 'password', '', 0),
+(3, 'kill@kill.com', 0, 'pass', '', 0),
+(4, 'pp@pete.com', 0, 'pass', 'Peter', 0);
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `assignments`
---
-ALTER TABLE `assignments`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `assignmentsubmissions`
---
-ALTER TABLE `assignmentsubmissions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `courseassignments`
---
-ALTER TABLE `courseassignments`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `courses`
---
-ALTER TABLE `courses`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `semesters`
---
-ALTER TABLE `semesters`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `staffcourses`
---
-ALTER TABLE `staffcourses`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `studentcourses`
---
-ALTER TABLE `studentcourses`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `submissions`
---
-ALTER TABLE `submissions`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`Id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `assignments`
---
-ALTER TABLE `assignments`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `assignmentsubmissions`
---
-ALTER TABLE `assignmentsubmissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `courseassignments`
---
-ALTER TABLE `courseassignments`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `courses`
---
-ALTER TABLE `courses`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `semesters`
---
-ALTER TABLE `semesters`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `staffcourses`
---
-ALTER TABLE `staffcourses`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `studentcourses`
---
-ALTER TABLE `studentcourses`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `submissions`
---
-ALTER TABLE `submissions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
