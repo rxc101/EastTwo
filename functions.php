@@ -63,7 +63,39 @@ function getStudentCourses(){
 	$studentID = $_SESSION['userID'];
 	// Get courses group by semester that the student is in 	
 	// StudentCourses -> CourseAssignments -> CourseSubmissions -> Submissions -> Courses
+	$conn = connectToDB();
 	
+	// DOUBLE query, oh well
+	
+	$sql1 = 'SELECT * FROM semesters';
+	$result=$conn->query($sql1);
+    $semesterCount = 0;
+	$data = null;
+    while($row = $result->fetch_assoc()){
+		// EACH SEMESTER
+		$data[$semesterCount]['semesterID'] = $row['ID'];
+		$data[$semesterCount]['semseterName'] = $row['Name'];
+		$data[$semesterCount]['courses'] = null;
+		
+		$sql2 = 'SELECT c.ID,c.Name FROM studentcourses sc, semesters s, courses c ';
+		$sql2.= 'WHERE c.ID=sc.CourseID AND sc.StudentID='.$studentID.' AND s.ID='.$row['ID'].' AND sc.SemesterID='. $row['ID'];
+		
+		$result2=$conn->query($sql2);
+		$count2 = 0;
+		while($row2 = $result2->fetch_assoc()){
+			$data[$semesterCount]['courses'][$count2]['courseID'] = $row2['ID'];
+			$data[$semesterCount]['courses'][$count2]['courseName'] = $row2['Name'];
+			$data[$semesterCount]['courses'][$count2]['dueAss'] = 2;
+			$data[$semesterCount]['courses'][$count2]['lateAss'] = 2;
+			$count2++;
+		}
+		
+		$semesterCount++;
+	}
+	
+	return $data;
+	
+	/*
 	return array(
 				0 => array( 
 					'semseterName' =>'Spring 2016',
@@ -93,7 +125,7 @@ function getStudentCourses(){
 												)
 									)
 						)
-		);
+		);*/
 }
 
 function getStudentCourseAssignments($courseID){
@@ -321,7 +353,7 @@ function getStaffCourses(){
 		$data[$semesterCount]['semseterName'] = $row['Name'];
 		$data[$semesterCount]['courses'] = null;
 		
-		$sql2 = 'SELECT c.ID,c.Name FROM studentcourses stc, staffcourses sc, semesters s, courses c ';
+		$sql2 = 'SELECT c.ID,c.Name FROM staffcourses sc, semesters s, courses c ';
 		$sql2.= 'WHERE c.ID=sc.CourseID AND sc.StaffID='.$staffID.' AND s.ID='.$row['ID'].' AND sc.SemesterID='. $row['ID'];
 		
 		$result2=$conn->query($sql2);
