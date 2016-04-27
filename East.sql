@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2016 at 10:15 PM
+-- Generation Time: Apr 27, 2016 at 11:16 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.4
 
@@ -149,16 +149,17 @@ INSERT INTO `staffcourses` (`ID`, `CourseID`, `StaffID`, `SemesterID`) VALUES
 CREATE TABLE `studentcourses` (
   `ID` int(11) NOT NULL,
   `StudentID` int(11) NOT NULL,
-  `CourseID` int(11) NOT NULL
+  `CourseID` int(11) NOT NULL,
+  `SemesterID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `studentcourses`
 --
 
-INSERT INTO `studentcourses` (`ID`, `StudentID`, `CourseID`) VALUES
-(1, 2, 1),
-(3, 3, 1);
+INSERT INTO `studentcourses` (`ID`, `StudentID`, `CourseID`, `SemesterID`) VALUES
+(1, 2, 1, 1),
+(3, 3, 1, 1);
 
 -- --------------------------------------------------------
 
