@@ -199,6 +199,7 @@ function getStaffCourseAssignments($courseID){
 	$result=$conn->query($sql);
 	$assCount = 0;
 	$data = null;
+	$data['courseName'] = "New Course";
     while($row = $result->fetch_assoc()){
 		$data['courseName'] = $row['CourseName'];
 		$data['assignments'][$assCount]['assID'] = $row['ID'];
