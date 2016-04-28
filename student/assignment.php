@@ -2,7 +2,11 @@
 <h2>Submissions</h2>
 <div class="well">
 <h3><?=$page['studentAssSubmissions']['assignmentName']?></h3>
-<p class="list-group-item-text">Due: <?=$page['studentAssSubmissions']['dueDate']?></p>
+<?php
+	if(!isset($page['studentAssSubmissions']['submissions'])){
+		echo "There are no submissions at this time.";
+	}
+?>
 
 <div class="list-group">
 <?php foreach($page['studentAssSubmissions']['submissions'] as $submission){ ?>
