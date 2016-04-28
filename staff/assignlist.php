@@ -129,7 +129,9 @@ function setClickEvents(){
 				$me.removeClass("label-primary");
 				$me.addClass("label-default");
 				$me.attr( 'data-enrolled',"0" );			
-				$("#notEnrolledList").append($me);				
+				$("#notEnrolledList").append($me);
+				//toastr.options = {'positionClass': 'toast-top-center'}; 
+				toastr.success(msg);			
 			});		
 
 		}else{
@@ -144,6 +146,8 @@ function setClickEvents(){
 				$me.removeClass("label-default");
 				$me.attr( 'data-enrolled',"1" );			
 				$("#enrolledList").append($me);	
+				//toastr.options = {'positionClass': 'toast-top-center'};
+				toastr.success(msg);
 			});	
 				
 		}

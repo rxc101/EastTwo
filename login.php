@@ -1,6 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet">
-
 <div class="container">
 
 	<div><?php if(isset($_GET['loginfailed'])){echo "<script> toastr.options = {'positionClass': 'toast-top-center'}; toastr.error('Credentials not found')</script>";}  ?></div>
