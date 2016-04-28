@@ -1,6 +1,9 @@
 <div class="container body-container">
 	<h2><?=$page['staffStudentSubmissions']['assignmentName']?> - Submissions</h2>
 	<?php
+	if(!isset($page['staffStudentSubmissions']['students'])){
+		echo "There are no submissions at this time.";
+	}
 	foreach($page['staffStudentSubmissions']['students'] as $student){
 		// For Each assignment
 		?>		

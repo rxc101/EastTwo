@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 require_once "functions.php";
 $action = (isset($_GET['action'])!=null?$_GET['action']:"home");
 
@@ -104,6 +105,16 @@ if(!isLoggedIn()){
 	        	require_once 'footer.php';
 
 	    break;
+		case 'myaccount':
+			$page['title'] = "My Account";
+			require_once 'header.php';
+			require_once 'myaccount.php';
+			require_once 'footer.php';
+		break;
+
+		case 'changepassword':
+				changepassword($_SESSION['userID'], $_POST['NewPassword']);
+		break;
 
         case "createUser":
         		addUser();

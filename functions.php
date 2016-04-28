@@ -12,6 +12,15 @@ function isStudent(){
 	}
 	return false;
 }
+function changePassword($user_id, $pw)
+{
+	
+	$conn = connectToDB();
+	$sql = "UPDATE users SET Password='$pw' WHERE Id='$user_id';";
+	$result=$conn->query($sql);
+
+	header('Location: index.php?action=logout');
+}
 
 function updateRemoveEnrollment(){
 	
@@ -356,7 +365,7 @@ function getStaffStudentSubmission($assID){
 	$result=$conn->query($studentsSQL);
 	$stuCount = 0;
 	$data = null;
-	
+	$data['assignmentName'] = "New Assignment";
     while($row = $result->fetch_assoc()){
 		$data['assignmentName'] = $row['assName'];
 		$data['assignmentMax'] = $row['MaxPoints'];
