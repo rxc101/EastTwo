@@ -4,6 +4,9 @@
 <h3><?=$page['studentCourseAssignments']['courseName']?></h3>
 <div class="list-group">
 <?php
+	if(!isset($page['studentCourseAssignments']['assignments'])){
+		echo "There are no assignments at this time.";
+	}
 foreach($page['studentCourseAssignments']['assignments'] as $ass){
 ?>
   <a href="?action=assignment&assignmentID=<?=$ass['assID']?>" class="list-group-item">
