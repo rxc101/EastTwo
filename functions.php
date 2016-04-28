@@ -237,7 +237,7 @@ function getStaffCourseAssignments($courseID){
 	$conn = connectToDB();
 	
 	$sql = 'SELECT c.ID, c.Name as CourseName, a.Name FROM assignments a, courseassignments ca, courses c ';
-	$sql.= 'WHERE ca.ID='.$courseID .' AND a.ID=ca.AssignmentID AND c.ID=ca.CourseID';
+	$sql.= 'WHERE ca.CourseID='.$courseID .' AND a.ID=ca.AssignmentID AND c.ID=ca.CourseID';
 	$result=$conn->query($sql);
 	$assCount = 0;
 	$data = null;
