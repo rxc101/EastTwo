@@ -523,7 +523,9 @@ function getStaffCourses(){
 			$data[$semesterCount]['courses'][$count2]['courseID'] = $row2['ID'];
 			$data[$semesterCount]['courses'][$count2]['courseName'] = $row2['Name'];
 			$data[$semesterCount]['courses'][$count2]['students'] = 2;
-			$data[$semesterCount]['courses'][$count2]['assignments'] = 2;
+			$query = "SELECT * FROM courseassignments WHERE CourseID = '" . $row2['ID'] . "'";	
+		    $res = $conn->query($query);	 
+			$data[$semesterCount]['courses'][$count2]['assignments'] = mysqli_num_rows($res);
 			$count2++;
 		}
 		
