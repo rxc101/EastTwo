@@ -117,9 +117,23 @@ if(!isLoggedIn()){
 	    		addNewSemester();
 	    break;
 
+	    case "addAssignment":
+	    		addNewAssignment();
+	    break;
+
+	    case "updateRemoveEnrollment":
+	    		updateRemoveEnrollment();
+	    break;
+
+	    case "updateAddEnrollment":
+	    		updateAddEnrollment();
+	    break;
+
 
 		default:
-			echo "You Must Be Lost!";
+		    require_once 'header.php';
+			require_once 'new404.php';
+			//echo "You Must Be Lost!";
 	}
 }
 

@@ -12,7 +12,7 @@ foreach($page['staffCourseList'] as $semester){
 	foreach($semester['courses'] as $course){
 			// For Each Course In A Semester
 ?>
-  <a href="?action=course&courseID=<?=$course['courseID']?>" class="list-group-item">
+  <a href="?action=course&courseID=<?=$course['courseID']?>&semesterID=<?=$semester['semesterID']?>" class="list-group-item">
     <h4 class="list-group-item-heading"><?=$course['courseName']?></h4>
     <p class="list-group-item-text">Current Assignments: <?=$course['assignments']?></p>
 	<p class="list-group-item-text">Current Students: <?=$course['students']?></p>

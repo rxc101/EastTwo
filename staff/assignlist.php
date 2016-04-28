@@ -85,10 +85,18 @@ $(function() {
 		
 	});
 	$("#addAss").click(function(e){
-		//AJAX SAVE THAT
-		//REFRESH PAGE
-		alert("Saving - Refreshing Page");
-		location.reload(); 
+		assignmentName = $("#AssignmentName").val();
+		maxPoints = $("#AssignmentMaxPoints").val();
+		courseID = <?= $_GET['courseID'] ?>;
+		$.ajax({
+			method: "POST",
+			url: "index.php?action=addAssignment",
+			data: {name : assignmentName, maximumPoints : maxPoints, courseid : courseID }
+		})
+		.done(function(msg){
+			alert(msg);
+			location.reload(); 
+		});
 		
 		
 	});
@@ -104,36 +112,42 @@ function setClickEvents(){
 		// STUDENT ID
 		// COURSE ID  
 		studentID = $(this).attr( 'data-studentID' );
-		courseID = 123; // Fill This with PHP variable
+		courseID = <?= $_GET['courseID'] ?>; // Fill This with PHP variable
 		$me = $(this);
+		semID = <?= $_GET['semesterID']; ?>;
 		
 		$(this).remove();		
 		if(isEnrolled){
 			// take out of enrollment
+
 			$.ajax({
 				method: "POST",
 				url: "index.php?action=updateRemoveEnrollment",
-				data: { studentID: studentID, courseID: courseID }
+				data: { studentID: studentID, courseID: courseID, semesterID : semID }
 			})
 			.done(function( msg ) {			
 				$me.removeClass("label-primary");
 				$me.addClass("label-default");
 				$me.attr( 'data-enrolled',"0" );			
-				$("#notEnrolledList").append($me);				
+				$("#notEnrolledList").append($me);
+				//toastr.options = {'positionClass': 'toast-top-center'}; 
+				toastr.success(msg);			
 			});		
 
 		}else{
 			// enroll
 			$.ajax({
 				method: "POST",
-				url: "index.php?action=updateRemoveEnrollment",
-				data: { studentID: studentID, courseID: courseID }
+				url: "index.php?action=updateAddEnrollment",
+				data: { studentID: studentID, courseID: courseID, semesterID : semID }
 			})
 			.done(function( msg ) {			
 				$me.addClass("label-primary");
 				$me.removeClass("label-default");
 				$me.attr( 'data-enrolled',"1" );			
 				$("#enrolledList").append($me);	
+				//toastr.options = {'positionClass': 'toast-top-center'};
+				toastr.success(msg);
 			});	
 				
 		}
