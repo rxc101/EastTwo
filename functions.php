@@ -13,6 +13,32 @@ function isStudent(){
 	return false;
 }
 
+function updateRemoveEnrollment(){
+	$conn = connectToDB();
+
+	$studentID = $_POST['studentID'];
+	$courseID = $_POST['courseID'];
+	$semesterID = $_POST['semesterID'];
+
+	$sql="DELETE FROM studentcourses WHERE StudentID='$studentID' AND CourseID='$courseID'";
+error_log($sql);
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}error_log($studentID . " "  . $courseID . " " .  $semesterID);
+
+
+}
+function updateAddEnrollment(){
+
+	$studentID = $_POST['studentID'];
+	$courseID = $_POST['courseID'];
+	$semesterID = $_POST['semesterID'];
+
+}
+
+
 function addNewSemester(){
 	$conn = connectToDB();
 
@@ -86,6 +112,33 @@ function addUser()
 
 $conn->close();
 
+}
+
+function addNewAssignment(){
+	$conn = connectToDB();
+
+	$assignmentName = $_POST['name'];
+	$maxPoints = $_POST['maximumPoints'];
+	$courseID = $_POST['courseid'];
+
+	$sql="INSERT INTO assignments (Name, MaxPoints) VALUES ('$assignmentName', 'maxPoints')";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+
+	$assID = $conn->insert_id;
+
+	$sql="INSERT INTO courseassignments (CourseID, AssignmentID) VALUES ('$courseID', '$assID')";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	
 }
 
 function checkUserAccount($email, $password){
@@ -237,7 +290,7 @@ function getStaffCourseAssignments($courseID){
 	$conn = connectToDB();
 	
 	$sql = 'SELECT c.ID, c.Name as CourseName, a.Name FROM assignments a, courseassignments ca, courses c ';
-	$sql.= 'WHERE ca.ID='.$courseID .' AND a.ID=ca.AssignmentID AND c.ID=ca.CourseID';
+	$sql.= 'WHERE ca.CourseID='.$courseID .' AND a.ID=ca.AssignmentID AND c.ID=ca.CourseID';
 	$result=$conn->query($sql);
 	$assCount = 0;
 	$data = null;

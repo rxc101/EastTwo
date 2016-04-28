@@ -117,6 +117,18 @@ if(!isLoggedIn()){
 	    		addNewSemester();
 	    break;
 
+	    case "addAssignment":
+	    		addNewAssignment();
+	    break;
+
+	    case "updateRemoveEnrollment":
+	    		updateRemoveEnrollment();
+	    break;
+
+	    case "updateAddEnrollment":
+	    		updateAddEnrollment();
+	    break;
+
 
 		default:
 			echo "You Must Be Lost!";
