@@ -131,7 +131,9 @@ if(!isLoggedIn()){
 
 
 		default:
-			echo "You Must Be Lost!";
+		    require_once 'header.php';
+			require_once 'new404.php';
+			//echo "You Must Be Lost!";
 	}
 }
 
