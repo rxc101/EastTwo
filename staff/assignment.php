@@ -57,12 +57,19 @@ $(function() {
 		grade=$("#Grade"+submissionID).val();
 		// Check and validation stuff
 		
-		// START AJAX CALL
-		// ON SUCCESS/Complete Do This
-		$("#FeedBackReplace"+submissionID).html(feedback);
-		$("#GradeReplace"+submissionID).html(grade);
+		$.ajax({
+			method: "POST",
+			url: "index.php?action=gradeSubmission",
+			data: {submissionID : submissionID, feedback : feedback, grade : grade}
+		})
+		.done(function(msg){
+		    $("#FeedBackReplace"+submissionID).html(feedback);
+		    $("#GradeReplace"+submissionID).html(grade);
+		    $(this).hide();
+			location.reload();
+			toastr.success(msg); 
+		});
 
-		$(this).hide();
 	});
 	
 });

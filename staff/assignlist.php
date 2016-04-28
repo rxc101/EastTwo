@@ -94,7 +94,7 @@ $(function() {
 			data: {name : assignmentName, maximumPoints : maxPoints, courseid : courseID }
 		})
 		.done(function(msg){
-			alert(msg);
+			toastr.success(msg);
 			location.reload(); 
 		});
 		

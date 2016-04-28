@@ -14,12 +14,31 @@ function isStudent(){
 }
 function changePassword($user_id, $pw)
 {
-	
 	$conn = connectToDB();
 	$sql = "UPDATE users SET Password='$pw' WHERE Id='$user_id';";
 	$result=$conn->query($sql);
 
 	header('Location: index.php?action=logout');
+}
+
+function gradeSubmission(){
+
+	$submissionID = $_POST['submissionID'];
+	$feedback = $_POST['feedback'];
+	$grade = $_POST['grade'];
+
+	$conn = connectToDB();
+	$sql = "UPDATE submissions SET feedback='$feedback', graded='$grade' WHERE ID='$submissionID';";
+
+	if ($conn->query($sql) === TRUE) {
+    	echo "Submission graded";
+	} else {
+		echo "Error grading submission.";
+	    //echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+
+	$conn->close();
+
 }
 
 function updateRemoveEnrollment(){

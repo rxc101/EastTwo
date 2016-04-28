@@ -140,7 +140,11 @@ if(!isLoggedIn()){
 	    		updateAddEnrollment();
 	    break;
 
+	    case "gradeSubmission":
+	    		gradeSubmission();
+	    break;
 
+	
 		default:
 		    require_once 'header.php';
 			require_once 'new404.php';
