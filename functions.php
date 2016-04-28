@@ -38,7 +38,7 @@ function updateAddEnrollment(){
 	$courseID = $_POST['courseID'];
 	$semesterID = $_POST['semesterID'];
 
-	$sql="INSERT INTO studentcourses (StudentID,CourseID) VALUES('$studentID','$courseID')";
+	$sql="INSERT INTO studentcourses (StudentID,CourseID,SemesterID) VALUES('$studentID','$courseID','$semesterID')";
 
 	error_log($sql);
 	if ($conn->query($sql) === TRUE) {
