@@ -41,6 +41,37 @@ function gradeSubmission(){
 
 }
 
+function addSubmission(){
+
+	$conn = connectToDB();
+	$comments = $_POST['comments'];
+	$assID = $_POST['assignmentID'];
+	$studID = $_SESSION['userID'];
+
+	$sql="INSERT INTO submissions (comments) VALUES('$comments')";
+
+	error_log($sql);
+	if ($conn->query($sql) === TRUE) {
+    	echo "Submission added";
+	} else {
+	   // echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	$subID = $conn->insert_id;
+	$sql="INSERT INTO assignmentsubmissions (AssID, SubID, StudentID) VALUES ('$assID', '$subID', '$studID')";
+
+	if ($conn->query($sql) === TRUE) {
+    	
+	} else {
+	    //echo "Error: " . $sql . "<br>" . $conn->error;
+	    echo "Error creating new course";
+	}
+
+
+
+}
+	
+
+
 function updateRemoveEnrollment(){
 	
 	$conn = connectToDB();

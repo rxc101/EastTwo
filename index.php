@@ -144,6 +144,10 @@ if(!isLoggedIn()){
 	    		gradeSubmission();
 	    break;
 
+	    case "addSubmission":
+	    		addSubmission();
+	    break;
+
 	
 		default:
 		    require_once 'header.php';

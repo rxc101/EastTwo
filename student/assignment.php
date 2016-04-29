@@ -30,7 +30,7 @@ THIS Submission area will be a good place to put our required AJAX stuff..
 
   <div class="form-group">
     <label for="submissionComments">Comments</label>
-    <textarea class="form-control" rows="3"></textarea>
+    <textarea class="form-control" id="subComments"rows="3"></textarea>
   </div>
   <div class="form-group">
     <label for="upLoadButton">Upload File</label><br>
@@ -50,9 +50,27 @@ THIS Submission area will be a good place to put our required AJAX stuff..
 <script>
 // Later I will make this update a file and post to a function to create a new submission
 $(function() {
-	$("#submitAssignment").click(function(e){
-		
-		alert("We going to do stuff now");
-	});
+
+    //comments, feedback, fileloc, graded
+
+  $("#submitAssignment").click(function(e){
+    comments = $("#subComments").val();
+    assID = <?= $_GET['assignmentID'] ?>;
+
+    $.ajax({
+      method: "POST",
+      url: "index.php?action=addSubmission",
+      data: {comments : comments, assignmentID : assID }
+    })
+    .done(function(msg){
+      toastr.success(msg);
+      location.reload(); 
+    });
+    
+    
+  });
+
 });
+
+
 </script>
